@@ -171,4 +171,54 @@ class NeededCommand : ICommand {
     Dictionary<string,int> ParseArgs(string[] args) => string.Join(" ", args).Split(',').Select(x => x.Trim().Split(' ')).GroupBy(p => p[1]).ToDictionary(g => g.Key, g => g.Sum(p => int.Parse(p[0])));
 }
 
+class InstructionCommand : ICommand {
+    RobotFactory factory;
+    public InstructionCommand(RobotFactory f) => factory = f;
+    public void Execute(string[] args) {
+        var map = ParseArgs(args);
+        foreach (var (k,v) in map) {
+            var t = factory.Get(k);
+            for (int i=0;i<v;i++) {
+                Console.WriteLine($"PRODUCING {k}");
+                Console.WriteLine($"GET_OUT_STOCK 1 {t.Core}");
+                Console.WriteLine($"GET_OUT_STOCK 1 {t.Generator}");
+                Console.WriteLine($"GET_OUT_STOCK 1 {t.Arms}");
+                Console.WriteLine($"GET_OUT_STOCK 1 {t.Legs}");
+                Console.WriteLine($"INSTALL {t.System} {t.Core}");
+                Console.WriteLine($"ASSEMBLE TMP1 {t.Core} {t.Generator}");
+                Console.WriteLine($"ASSEMBLE TMP2 TMP1 {t.Arms}");
+                Console.WriteLine($"ASSEMBLE TMP3 TMP2 {t.Legs}");
+                Console.WriteLine($"FINISHED {k}");
+            }
+        }
+    }
+    Dictionary<string,int> ParseArgs(string[] args) => string.Join(" ", args).Split(',').Select(x => x.Trim().Split(' ')).GroupBy(p => p[1]).ToDictionary(g => g.Key, g => g.Sum(p => int.Parse(p[0])));
+}
+
+class VerifyCommand : ICommand {
+    RobotFactory factory;
+    Stock stock;
+    public VerifyCommand(RobotFactory f, Stock s) => (factory, stock) = (f, s);
+    public void Execute(string[] args) {
+        try {
+            var map = string.Join(" ", args).Split(',').Select(x => x.Trim().Split(' ')).GroupBy(p => p[1]).ToDictionary(g => g.Key, g => g.Sum(p => int.Parse(p[0])));
+            foreach (var r in map.Keys) if (!factory.Exists(r)) throw new Exception($"{r} is not a recognized robot");
+            var total = new Dictionary<string, int>();
+            foreach (var (k, v) in map) {
+                var t = factory.Get(k);
+                foreach (var p in new[] { t.Core, t.Generator, t.Arms, t.Legs, t.System }) {
+                    if (!total.ContainsKey(p)) total[p] = 0;
+                    total[p] += v;
+                }
+            }
+            foreach (var (p, qty) in total)
+                if (!stock.Parts.ContainsKey(p) || stock.Parts[p] < qty)
+                    throw new Exception("UNAVAILABLE");
+            Console.WriteLine("AVAILABLE");
+        } catch (Exception ex) {
+            Console.WriteLine("ERROR " + ex.Message);
+        }
+    }
+}
+
 }

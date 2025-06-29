@@ -29,7 +29,7 @@ class Generator : Part { public Generator(string n, Category c) : base(n, c) { }
 class Arms : Part { public Arms(string n, Category c) : base(n, c) { } }
 class Legs : Part { public Legs(string n, Category c) : base(n, c) { } }
 
-/ --- TEMPLATE ROBOT ---
+// --- TEMPLATE ROBOT ---
 class RobotTemplate {
     public string Name;
     public Category RobotCategory;
@@ -135,5 +135,40 @@ class Stock {
     public void Show() {
         foreach (var r in Robots) Console.WriteLine($"{r.Value} {r.Key}");
         foreach (var p in Parts) Console.WriteLine($"{p.Value} {p.Key}");
+    } 
+    
+    // --- COMMANDES ---
+interface ICommand
+{
+    void Execute(string[] args);
+}
+
+class StockCommand : ICommand {
+    Stock stock;
+    public StockCommand(Stock s) => stock = s;
+    public void Execute(string[] args) => stock.Show();
+}
+
+class NeededCommand : ICommand {
+    RobotFactory factory;
+    public NeededCommand(RobotFactory f) => factory = f;
+    public void Execute(string[] args) {
+        var map = ParseArgs(args);
+        var total = new Dictionary<string, int>();
+        foreach (var (k,v) in map) {
+            var t = factory.Get(k);
+            var list = new[] { t.Core, t.Generator, t.Arms, t.Legs, t.System };
+            Console.WriteLine($"{v} {k}:");
+            foreach (var p in list) {
+                Console.WriteLine($"{v} {p}");
+                if (!total.ContainsKey(p)) total[p] = 0;
+                total[p] += v;
+            }
+        }
+        Console.WriteLine("Total:");
+        foreach (var (k,v) in total) Console.WriteLine($"{v} {k}");
     }
+    Dictionary<string,int> ParseArgs(string[] args) => string.Join(" ", args).Split(',').Select(x => x.Trim().Split(' ')).GroupBy(p => p[1]).ToDictionary(g => g.Key, g => g.Sum(p => int.Parse(p[0])));
+}
+
 }

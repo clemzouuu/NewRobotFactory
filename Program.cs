@@ -29,3 +29,111 @@ class Generator : Part { public Generator(string n, Category c) : base(n, c) { }
 class Arms : Part { public Arms(string n, Category c) : base(n, c) { } }
 class Legs : Part { public Legs(string n, Category c) : base(n, c) { } }
 
+/ --- TEMPLATE ROBOT ---
+class RobotTemplate {
+    public string Name;
+    public Category RobotCategory;
+    public string Core, Generator, Arms, Legs, System;
+
+    public RobotTemplate(string name, Category cat, string core, string system, string gen, string arms, string legs) {
+        Name = name; 
+        RobotCategory = cat;
+        Core = core;
+        System = system;
+        Generator = gen;
+        Arms = arms;
+        Legs = legs;
+    }
+}
+
+class RobotFactory {
+    private Dictionary<string, RobotTemplate> templates = new();
+    public void Add(RobotTemplate t) {
+        if (ValidateTemplate(t)) templates[t.Name] = t;
+        else Console.WriteLine($"ERROR Invalid template {t.Name}");
+    }
+    public RobotTemplate Get(string name) => templates.ContainsKey(name) ? templates[name] : throw new Exception($"Unknown robot: {name}");
+    public bool Exists(string name) => templates.ContainsKey(name);
+    private bool ValidateTemplate(RobotTemplate t)
+    {
+        var allowedParts = t.RobotCategory switch {
+            Category.D => new[] { Category.D, Category.G, Category.I },
+            Category.I => new[] { Category.I, Category.G },
+            Category.M => new[] { Category.M, Category.I },
+            _ => Array.Empty<Category>()
+        };
+
+        var allowedSystem = t.RobotCategory switch {
+            Category.D => new[] { Category.D, Category.G, Category.I },
+            Category.I => new[] { Category.I, Category.G },
+            Category.M => new[] { Category.M, Category.G },
+            _ => Array.Empty<Category>()
+        };
+
+        // Valide les pièces (hors système)
+        var parts = new[] { t.Core, t.Generator, t.Arms, t.Legs };
+        foreach (var part in parts)
+        {
+            if (!PartDatabase.Categories.TryGetValue(part, out var category) || !allowedParts.Contains(category))
+                return false;
+        }
+
+        // Valide le système séparément
+        if (!PartDatabase.Categories.TryGetValue(t.System, out var systemCategory) || !allowedSystem.Contains(systemCategory))
+            return false;
+
+        return true;
+    }
+
+    public IEnumerable<string> List() => templates.Keys;
+}
+
+// --- BASE DE DONNÉES ---
+static class PartDatabase {
+    public static Dictionary<string, Category> Categories = new();
+    public static void Init() {
+        // Cores
+        Categories["Core_CM1"] = Category.M;
+        Categories["Core_CD1"] = Category.D;
+        Categories["Core_CI1"] = Category.I;
+        // Generators
+        Categories["Generator_GM1"] = Category.M;
+        Categories["Generator_GD1"] = Category.D;
+        Categories["Generator_GI1"] = Category.I;
+        // Arms
+        Categories["Arms_AM1"] = Category.M;
+        Categories["Arms_AD1"] = Category.D;
+        Categories["Arms_AI1"] = Category.I;
+        // Legs
+        Categories["Legs_LM1"] = Category.M;
+        Categories["Legs_LD1"] = Category.D;
+        Categories["Legs_LI1"] = Category.I;
+        // Systems
+        Categories["System_SB1"] = Category.G;
+        Categories["System_SM1"] = Category.M;
+        Categories["System_SD1"] = Category.D;
+        Categories["System_SI1"] = Category.I;
+    }
+}
+
+class Stock {
+    public Dictionary<string, int> Parts = new();
+    public Dictionary<string, int> Robots = new();
+
+    public void Add(string name, int qty, bool robot = false) {
+        var dict = robot ? Robots : Parts;
+        if (!dict.ContainsKey(name)) dict[name] = 0;
+        dict[name] += qty;
+    }
+
+    public bool Consume(string name, int qty) {
+        if (!Parts.ContainsKey(name) || Parts[name] < qty) return false;
+        Parts[name] -= qty;
+        return true;
+    }
+
+    public void Show() {
+        foreach (var r in Robots) Console.WriteLine($"{r.Value} {r.Key}");
+        foreach (var p in Parts) Console.WriteLine($"{p.Value} {p.Key}");
+    }
+}

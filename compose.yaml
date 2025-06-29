@@ -1,0 +1,7 @@
+﻿services:
+  robotfactory:
+    image: robotfactory
+    build:
+      context: .
+      dockerfile: Dockerfile
+

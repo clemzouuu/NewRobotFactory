@@ -1,0 +1,15 @@
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/bin/Debug/net9.0/RobotFactory
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/bin/Debug/net9.0/RobotFactory.deps.json
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/bin/Debug/net9.0/RobotFactory.runtimeconfig.json
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/bin/Debug/net9.0/RobotFactory.dll
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/bin/Debug/net9.0/RobotFactory.pdb
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.AssemblyInfoInputs.cache
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.AssemblyInfo.cs
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.csproj.CoreCompileInputs.cache
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.sourcelink.json
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.dll
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/refint/RobotFactory.dll
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.pdb
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/RobotFactory.genruntimeconfig.cache
+/Users/rogerbentcha/Documents/ESGI/4ESGI-AL1/S2/Desgin Pattern/Projet/RobotFactory/obj/Debug/net9.0/ref/RobotFactory.dll

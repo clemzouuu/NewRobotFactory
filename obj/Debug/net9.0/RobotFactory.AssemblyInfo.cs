@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RobotFactory")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01842646e9ccd8b6567d7810b57b94f66cd39dc2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9bc1e56f90921f4084696e0cd5c24c0022a2eef")]
 [assembly: System.Reflection.AssemblyProductAttribute("RobotFactory")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RobotFactory")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
